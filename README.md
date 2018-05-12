@@ -11,7 +11,11 @@ Enhancement mods for SCP
 * *For Firefox* : https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=search
 * *For Chrome* : https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en
 
-2. Click the Add-on icon, which should appear in the upper right corner of the browser, then click 'Create a new script', and add the following code:
+2. Click the Add-on icon, which should appear in the upper right corner of the browser, then click:
+* *Create a new script...* - if you are adding this for the first time.
+* *Dashboard* - if you already have this and would like to edit it. In Dashboard select 'SCP Mod' to edit.
+
+Then add the following code:
 ```javascript
 // ==UserScript==
 // @name     	SCP Mod
@@ -30,4 +34,12 @@ Enhancement mods for SCP
 var user_highlight = true;
 var user_label = true;
 ```
-3. Save the changes. You're good to go.
+> _'@require ... /master/scp_mod.js'_ is referring to the master branch, which contains all the added features. You can change 'master' to a different branch name to explore or demo those features.
+3. Save the changes, and you're good to go :thumbsup:
+
+###### Auto Updates:
+Go to Dashboard and open 'SCP Mod' userscript. In the userscript's Settings tab, make sure 'Check for updates' is selected.
+> By default it is usually checked
+
+You can change the update frequency of userscripts under Dashboard Settings.
+> Note, the core 'scp_mod.js' script, referenced from GitHub, is considered "External".
