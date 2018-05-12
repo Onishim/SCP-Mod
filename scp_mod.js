@@ -2,6 +2,7 @@
  * SCP Mod v1.1.0
  *
  * Features :
+ *  0.  Custom SCP Tab Title - show ID and/or Subject, Product
  *  1.  Expand conversation history on load of SCP issue page
  *  2.  Highlight (default) and/or add label to SUMMARY & Complexity Notes in SCP issue page 
  *  3.  Scroll to Request Details, Conversations & Request Properties section
@@ -15,6 +16,32 @@ var color_complexity = "lavender";
 
 $(document).ready(function() {
     //alert("Welcome to SCP");
+
+    // Start Custom SCP Tab Title
+    // Inspired from:
+    // Simon's script - http://qnl-intranet/wiki/doku.php?id=user:simonc:userscript_scp_view_issue&s[]=scp&s[]=browser
+    // & Yee Huey's script //$(document).attr("title", "SCP#"+window.location.href.match(/\d+/)[0]);
+    
+    var scp = $('#issueHdr .issueTitle').text().split(/^ID : |\n - /);
+    var scp_id = scp[1];
+    var scp_subject = scp[2];
+    var scp_product = $('#PRODUCTID_CUR').text().replace(/ \(unknown\)$/, '');
+    var tab_title = scp_id;
+
+    if (typeof user_tabtitle !== 'undefined') {
+        switch (user_tabtitle){
+            case 1:
+                tab_title = tab_title + " | " + scp_product;
+                break;
+            case 2:
+                tab_title = tab_title + " - " + scp_subject;
+                break;
+            default:
+                tab_title = scp_id;
+        }
+    }
+    $(document).attr("title", tab_title);
+    // End Custom SCP Tab Title
 
     // override user's highlight preference
     if (typeof user_highlight !== 'undefined') {

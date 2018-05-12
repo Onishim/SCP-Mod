@@ -2,6 +2,7 @@
 Enhancement mods for SCP
 
 ###### Added Features:
+0.  Custom SCP Tab Title - show ID and/or Subject, Product
 1. 	Expand conversation history on load of SCP issue page
 2. 	Highlight (default) and/or add label to SUMMARY & Complexity Notes in SCP issue page 
 3.	Scroll to Request Details, Conversations & Request Properties section
