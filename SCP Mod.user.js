@@ -24,5 +24,3 @@ var user_tabtitle = 1;
  */
 var user_highlight = true;
 var user_label = true;
-
-
