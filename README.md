@@ -6,6 +6,7 @@ Enhancement mods for SCP
 1. 	Expand conversation history on load of SCP issue page
 2. 	Highlight (default) and/or add label to SUMMARY & Complexity Notes in SCP issue page 
 3.	Scroll to Request Details, Conversations & Request Properties section
+4.  Add new or find existing SUMMARY note
 
 ###### Instructions for use:
 1. Install Tampermonkey Add-on to your browser from below links.
@@ -23,8 +24,8 @@ Then add the following code:
 // @version  	1.3.0
 // @author      Oni
 // @description  Enhancement mods for SCP
-// @updateURL	https://raw.githubusercontent.com/Onishim/SCP-Mod/master/
-// @downloadURL	https://raw.githubusercontent.com/Onishim/SCP-Mod/master/
+// @updateURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
+// @downloadURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
 // @match 		https://scp.quintiq.com/WorkOrder.do?woMode=viewWO&woID=*
 // @match 		https://scp.quintiq.com/AddResolution.do*
 // @require		http://code.jquery.com/jquery-latest.js

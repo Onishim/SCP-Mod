@@ -3,8 +3,8 @@
 // @version  	1.3.0
 // @author      Oni
 // @description  Enhancement mods for SCP
-// @updateURL	https://raw.githubusercontent.com/Onishim/SCP-Mod/master/
-// @downloadURL	https://raw.githubusercontent.com/Onishim/SCP-Mod/master/
+// @updateURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
+// @downloadURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
 // @match 		https://scp.quintiq.com/WorkOrder.do?woMode=viewWO&woID=*
 // @match 		https://scp.quintiq.com/AddResolution.do*
 // @require		http://code.jquery.com/jquery-latest.js
