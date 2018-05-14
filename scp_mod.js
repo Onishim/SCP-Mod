@@ -9,7 +9,10 @@
  *  4.  Add new or find existing SUMMARY note
  */
 
-// default variables
+
+/**--------------------------------------------------
+ * Default variables
+ */
 var highlight = true;
 var label = false;
 var color_summary = "honeydew";
@@ -18,10 +21,27 @@ var color_complexity = "lavender";
 var summary_id = "";
 //var complexity_id = "";
 
-/**
- * Custom buttons & click events----------------------------------
+/**--------------------------------------------------
+ * Custom buttons & click events
  */
-// Add custom buttons to the header menu bar #RvAcnHdr
+// Add custom menu buttons to the header menu bar #RvAcnHdr
+$('#RvAcnHdr table tbody tr').append(
+    '<td id="cust_menu">' +
+     // Add Scroll buttons - Summary Note
+    '<a class="acnbtn fl mr10" id="scroll_summary">' +
+    '<img src="images/spacer.gif" class="scpnoteicon" vspace="4" border="0" title="Summary Note">' +
+    '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Summary Note" style="top: -27px;position: relative;left: 3px;display:none">' +
+    '</a>'+
+    // Add Scroll buttons - Request Details
+    '<a class="acnbtn fl mr10" id="scroll_reqdetail"><img src="images/spacer.gif" class="scpicon97" vspace="3" border="0" title="Request Details"></a>' +
+    // Add Scroll buttons - Conversations
+    '<a class="acnbtn fl mr10" id="scroll_conversation"><img src="images/spacer.gif" class="scpicon164" vspace="3" border="0" title="Conversations"></a>' +
+    // Add Scroll buttons - Request Properties
+    '<a class="acnbtn fl mr10" id="scroll_properties"><img src="images/spacer.gif" class="scpicon214" vspace="3" border="0" title="Request Properties"></a>' +
+
+    '</td>'
+);
+/*
 $('#RvAcnHdr table tbody tr').append(
     // Add Scroll buttons - Request Properties
     '<td id="td_scroll_properties" style="position:absolute; right:15px"><a class="acnbtn fl mr10" id="scroll_properties" style="border-color: #0394bf"><img src="images/spacer.gif" class="scpicon214" vspace="3" border="0" title="Request Properties"></a></td>' +
@@ -32,9 +52,10 @@ $('#RvAcnHdr table tbody tr').append(
      // Add Scroll buttons - Summary Note
     '<td id="td_scroll_summary" style="position:absolute; right:150px"><a class="acnbtn fl mr10" id="scroll_summary" style="border-color: #0394bf; background-image:none; background-color:honeydew; width:14px">' +
     '<img src="images/spacer.gif" class="scpnoteicon" vspace="4" border="0" title="Summary Note">' +
-    '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Summary Note" style="top: -27px;position: relative;left: 3px;">' +
+    '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Summary Note" style="top: -27px;position: relative;left: 3px;display:none">' +
     '</a></td>'
 );
+*/
 
 // Scroll to Request Description
 $('#RvAcnHdr table tbody tr').on('click', '#scroll_reqdetail', function() {
@@ -56,8 +77,12 @@ $('#RvAcnHdr table tbody tr').on('click', '#scroll_summary', function() {
     //alert(summary_id);
     findOrAddSummary();
 });
-// End Custom buttons & click events------------------------------
+// End Custom buttons & click events
 
+
+/**--------------------------------------------------
+ * On load executions
+ */
 $(document).ready(function() {
     //alert("Welcome to SCP");
 
@@ -100,7 +125,8 @@ $(document).ready(function() {
     highlightNotes();
 });
 
-/**
+
+/**--------------------------------------------------
  * Expand conversation history
  */
 $("#l-convs").ready(function() {
@@ -108,9 +134,10 @@ $("#l-convs").ready(function() {
     if($("#l-convs").length)
        $("#l-convs")[0].click();
 });
+// End Expand conversation history
 
 
-/**
+/**--------------------------------------------------
  * Highlight feature
  */
 
@@ -163,11 +190,18 @@ function highlightNotes(){
 
         }
     });
+
+    // Show edit icon on scroll_summary button if no summary found
+    if (summary_id == "") {
+        $('#td_scroll_summary a img.scpicon159').css('display', 'block');
+    }else{
+        $('#td_scroll_summary a img.scpicon159').css('display', 'none');
+    }
 }
 // End Highlight feature
 
 
-/**
+/**--------------------------------------------------
  * Scroll feature
  */
 
@@ -179,14 +213,17 @@ if($('#RvAcnHdr').length){
 
 function scrollTo(element)
 {
-    var offset = scroll_offset;
-    if(! $('#RvAcnHdr.FixedAcnBar').length){
-        offset = scroll_offset * 2;
+    if($("#requestDetails").hasClass('show') | element.selector=="#reqSummaryHdr"){
+        var offset = scroll_offset;
+        var offset = scroll_offset;
+        if(! $('#RvAcnHdr.FixedAcnBar').length){
+            offset = scroll_offset * 2;
+        }
+        //alert(offset);
+        $('html,body').animate({
+            scrollTop: element.offset().top - offset
+        });
     }
-    //alert(offset);
-    $('html,body').animate({
-        scrollTop: element.offset().top - offset
-    });
 }
 
 /*
@@ -204,7 +241,7 @@ $('#scroll_up').click(function(){
 // End Scroll feature
 
 
-/**
+/**--------------------------------------------------
  * SUMMARY note - Add, Find
  */
 // Add template note text when adding new note
@@ -238,7 +275,7 @@ function findOrAddSummary(){
     var s_note = $("#"+summary_id);
 
     if(s_note.length){
-        // Find Summary note
+        // Find (i.e. scroll to) Summary note
         scrollTo(s_note);
         if(!s_note.hasClass('ReqMDetails')){
             s_note.find('.g-conv.fl')[0].click();

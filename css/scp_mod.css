@@ -1,0 +1,20 @@
+#cust_menu{
+	position : absolute;
+	right : 17px;
+}
+.FixedAcnBar #cust_menu{
+	margin-right : -12px;
+}
+#cust_menu a{
+	margin-right : 6px;
+	border-color : #0394bf !important;
+	width : 14px !important;
+}
+#cust_menu a:hover{
+	border-color : #bfbfbf !important;
+}
+#scroll_summary{
+	background-image : none; 
+	background-color : honeydew;
+	margin-right : 10px !important;
+}
