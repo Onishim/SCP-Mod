@@ -20,17 +20,22 @@
   Then add the following code:
   ```javascript
   // ==UserScript==
-  // @name     	SCP Mod
-  // @version  	1.4.0
+  // @name      SCP Mod
+  // @version   1.4.0
   // @author      Oni
   // @description  Enhancement mods for SCP
-  // @updateURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
-  // @downloadURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
-  // @match 		https://scp.quintiq.com/WorkOrder.do?woMode=viewWO&woID=*
-  // @match 		https://scp.quintiq.com/AddResolution.do*
-  // @require		http://code.jquery.com/jquery-latest.js
-  // @require		https://raw.githubusercontent.com/Onishim/SCP-Mod/master/scp_mod.js
+  // @updateURL https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
+  // @downloadURL https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
+  // @match     https://scp.quintiq.com/WorkOrder.do?woMode=viewWO&woID=*
+  // @match     https://scp.quintiq.com/AddResolution.do*
+  // @resource    scpModCss https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+  // @grant       GM_addStyle
+  // @grant       GM_getResourceText
+  // @require   http://code.jquery.com/jquery-latest.js
+  // @require   https://raw.githubusercontent.com/Onishim/SCP-Mod/master/scp_mod.js
   // ==/UserScript==  
+
+  GM_addStyle (GM_getResourceText ("scpModCss"));  
 
   /**
    * Choose 'title' format for SCP tab
@@ -41,7 +46,7 @@
   var user_tabtitle = 0;  
 
   /**
-   * set to (Default) 'true' to enable feature, or 'false' to disable feature
+   * set to 'true' to enable feature, or 'false' to disable feature
    */
   var user_highlight = true;
   var user_label = true;
