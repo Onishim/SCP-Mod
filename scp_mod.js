@@ -193,9 +193,9 @@ function highlightNotes(){
 
     // Show edit icon on scroll_summary button if no summary found
     if (summary_id == "") {
-        $('#td_scroll_summary a img.scpicon159').css('display', 'block');
+        $('#scroll_summary .scpicon159').css('display', 'block');
     }else{
-        $('#td_scroll_summary a img.scpicon159').css('display', 'none');
+        $('#scroll_summary .scpicon159').css('display', 'none');
     }
 }
 // End Highlight feature
