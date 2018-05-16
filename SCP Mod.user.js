@@ -3,15 +3,15 @@
 // @version  	1.4.0
 // @author      Oni
 // @description  Enhancement mods for SCP
-// @updateURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
-// @downloadURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
+// @updateURL	https://github.com/Onishim/SCP-Mod/blob/summary-note/SCP%20Mod.user.js
+// @downloadURL	https://github.com/Onishim/SCP-Mod/blob/summary-note/SCP%20Mod.user.js
 // @match 		https://scp.quintiq.com/WorkOrder.do?woMode=viewWO&woID=*
 // @match 		https://scp.quintiq.com/AddResolution.do*
-// @resource    scpModCss https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+// @resource    scpModCss https://raw.githubusercontent.com/Onishim/SCP-Mod/summary-note/css/scp_mod.css
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
 // @require		http://code.jquery.com/jquery-latest.js
-// @require		https://raw.githubusercontent.com/Onishim/SCP-Mod/master/scp_mod.js
+// @require		https://raw.githubusercontent.com/Onishim/SCP-Mod/summary-note/scp_mod.js
 // ==/UserScript==
 
 GM_addStyle (GM_getResourceText ("scpModCss"));

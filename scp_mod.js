@@ -272,18 +272,20 @@ var template_summary = '=========================================\n' +
 var template_complexity = "##Complexity:";
 
 function findOrAddSummary(){
-    var s_note = $("#"+summary_id);
+    if($("#requestDetails").hasClass('show')){
+        var s_note = $("#"+summary_id);
 
-    if(s_note.length){
-        // Find (i.e. scroll to) Summary note
-        scrollTo(s_note);
-        if(!s_note.hasClass('ReqMDetails')){
-            s_note.find('.g-conv.fl')[0].click();
+        if(s_note.length){
+            // Find (i.e. scroll to) Summary note
+            scrollTo(s_note);
+            if(!s_note.hasClass('ReqMDetails')){
+                s_note.find('.g-conv.fl')[0].click();
+            }
+        }else{
+            // Add Summary note
+            add_template_summary = true;
+            showURLInDialog('AddNotes.do?workorderID=134610&toAdd=yes','title=Add Note, top=50, left=400');
         }
-    }else{
-        // Add Summary note
-        add_template_summary = true;
-        showURLInDialog('AddNotes.do?workorderID=134610&toAdd=yes','title=Add Note, top=50, left=400');
     }
 }
 
