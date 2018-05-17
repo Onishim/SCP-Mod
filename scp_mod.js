@@ -1,5 +1,5 @@
 /**
- * SCP Mod v1.4.0
+ * SCP Mod v1.4.1
  *
  * Features :
  *  0.  Custom SCP Tab Title - show ID and/or Subject, Product
