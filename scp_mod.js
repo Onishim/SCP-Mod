@@ -18,6 +18,11 @@ var label = false;
 var color_summary = "honeydew";
 var color_complexity = "lavender";
 
+var scp_id = "";
+var scp_subject = "";
+var scp_product = "";
+var tab_title = "";
+
 var summary_id = "";
 //var complexity_id = "";
 
@@ -92,10 +97,10 @@ $(document).ready(function() {
     // & Yee Huey's script //$(document).attr("title", "SCP#"+window.location.href.match(/\d+/)[0]);
 
     var scp = $('#issueHdr .issueTitle').text().split(/^ID : |\n - /);
-    var scp_id = scp[1];
-    var scp_subject = scp[2];
-    var scp_product = $('#PRODUCTID_CUR').text().replace(/ \(unknown\)$/, '');
-    var tab_title = scp_id;
+    scp_id = scp[1];
+    scp_subject = scp[2];
+    scp_product = $('#PRODUCTID_CUR').text().replace(/ \(unknown\)$/, '');
+    tab_title = scp_id;
 
     if (typeof user_tabtitle !== 'undefined') {
         switch (user_tabtitle){
@@ -215,7 +220,6 @@ function scrollTo(element)
 {
     if($("#requestDetails").hasClass('show') | element.selector=="#reqSummaryHdr"){
         var offset = scroll_offset;
-        var offset = scroll_offset;
         if(! $('#RvAcnHdr.FixedAcnBar').length){
             offset = scroll_offset * 2;
         }
@@ -281,10 +285,10 @@ function findOrAddSummary(){
             if(!s_note.hasClass('ReqMDetails')){
                 s_note.find('.g-conv.fl')[0].click();
             }
-        }else{
+        }else if(scp_id != ""){
             // Add Summary note
             add_template_summary = true;
-            showURLInDialog('AddNotes.do?workorderID=134610&toAdd=yes','title=Add Note, top=50, left=400');
+            showURLInDialog('AddNotes.do?workorderID=' + scp_id + '&toAdd=yes','title=Add Note, top=50, left=400');
         }
     }
 }
