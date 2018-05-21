@@ -6,15 +6,26 @@
 	margin-right : -12px;
 }
 #cust_menu a{
-	margin-right : 6px;
+	margin-right : 4px;
 	border-color : #0394bf !important;
 	width : 14px !important;
 }
 #cust_menu a:hover{
 	border-color : #bfbfbf !important;
 }
+#cust_menu pre{
+    position: absolute;
+    margin-left: -65px;
+    margin-top: 5px;
+    font-weight: bold;
+    color: #bfbfbf;
+}
 #scroll_summary{
-	background-image : none; 
+	background-image : none;
 	background-color : honeydew;
+}
+#scroll_complexity{
+	background-image : none;
+	background-color : lavender;
 	margin-right : 10px !important;
 }

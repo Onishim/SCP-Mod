@@ -1,12 +1,12 @@
 /**
- * SCP Mod v1.4.1
+ * SCP Mod v1.4.2
  *
  * Features :
  *  0.  Custom SCP Tab Title - show ID and/or Subject, Product
  *  1.  Expand conversation history on load of SCP issue page
  *  2.  Highlight (default) and/or add label to SUMMARY & Complexity Notes in SCP issue page
  *  3.  Scroll to Request Details, Conversations & Request Properties section
- *  4.  Add new or find existing SUMMARY note
+ *  4.  Add new or find existing SUMMARY/Complexity note
  */
 
 
@@ -18,24 +18,31 @@ var label = false;
 var color_summary = "honeydew";
 var color_complexity = "lavender";
 
+var trigram = "";
 var scp_id = "";
 var scp_subject = "";
 var scp_product = "";
 var tab_title = "";
 
 var summary_id = "";
-//var complexity_id = "";
+var complexity_id = "";
 
 /**--------------------------------------------------
  * Custom buttons & click events
  */
 // Add custom menu buttons to the header menu bar #RvAcnHdr
-$('#RvAcnHdr table tbody tr').append(
+$('#RvAcnHdr>table>tbody>tr').append(
     '<td id="cust_menu">' +
+    '<pre>Quick Nav</pre>' +
      // Add Scroll buttons - Summary Note
     '<a class="acnbtn fl mr10" id="scroll_summary">' +
     '<img src="images/spacer.gif" class="scpnoteicon" vspace="4" border="0" title="Summary Note">' +
     '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Summary Note" style="top: -27px;position: relative;left: 3px;display:none">' +
+    '</a>'+
+     // Add Scroll buttons - Complexity Note
+    '<a class="acnbtn fl mr10" id="scroll_complexity">' +
+    '<img src="images/spacer.gif" class="scpnoteicon" vspace="4" border="0" title="Complexity Note">' +
+    '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Complexity Note" style="top: -27px;position: relative;left: 3px;display:none">' +
     '</a>'+
     // Add Scroll buttons - Request Details
     '<a class="acnbtn fl mr10" id="scroll_reqdetail"><img src="images/spacer.gif" class="scpicon97" vspace="3" border="0" title="Request Details"></a>' +
@@ -46,21 +53,6 @@ $('#RvAcnHdr table tbody tr').append(
 
     '</td>'
 );
-/*
-$('#RvAcnHdr table tbody tr').append(
-    // Add Scroll buttons - Request Properties
-    '<td id="td_scroll_properties" style="position:absolute; right:15px"><a class="acnbtn fl mr10" id="scroll_properties" style="border-color: #0394bf"><img src="images/spacer.gif" class="scpicon214" vspace="3" border="0" title="Request Properties"></a></td>' +
-    // Add Scroll buttons - Conversations
-    '<td id="td_scroll_conversation" style="position:absolute; right:56px"><a class="acnbtn fl mr10" id="scroll_conversation" style="border-color: #0394bf"><img src="images/spacer.gif" class="scpicon164" vspace="3" border="0" title="Conversations"></a></td>' +
-    // Add Scroll buttons - Request Details
-    '<td id="td_scroll_reqdetail" style="position:absolute; right:100px"><a class="acnbtn fl mr10" id="scroll_reqdetail" style="border-color: #0394bf"><img src="images/spacer.gif" class="scpicon97" vspace="3" border="0" title="Request Details"></a></td>' +
-     // Add Scroll buttons - Summary Note
-    '<td id="td_scroll_summary" style="position:absolute; right:150px"><a class="acnbtn fl mr10" id="scroll_summary" style="border-color: #0394bf; background-image:none; background-color:honeydew; width:14px">' +
-    '<img src="images/spacer.gif" class="scpnoteicon" vspace="4" border="0" title="Summary Note">' +
-    '<img src="images/spacer.gif" class="scpicon159" vspace="3" border="0" title="Summary Note" style="top: -27px;position: relative;left: 3px;display:none">' +
-    '</a></td>'
-);
-*/
 
 // Scroll to Request Description
 $('#RvAcnHdr table tbody tr').on('click', '#scroll_reqdetail', function() {
@@ -79,8 +71,12 @@ $('#RvAcnHdr table tbody tr').on('click', '#scroll_properties', function() {
 
 // Add or Find Summary note
 $('#RvAcnHdr table tbody tr').on('click', '#scroll_summary', function() {
-    //alert(summary_id);
-    findOrAddSummary();
+    findOrAddNote('summary', summary_id);
+});
+
+// Add or Find Complexity note
+$('#RvAcnHdr table tbody tr').on('click', '#scroll_complexity', function() {
+    findOrAddNote('complexity', complexity_id);
 });
 // End Custom buttons & click events
 
@@ -89,7 +85,12 @@ $('#RvAcnHdr table tbody tr').on('click', '#scroll_summary', function() {
  * On load executions
  */
 $(document).ready(function() {
-    //alert("Welcome to SCP");
+	// Get Trigram
+    var trigram_span = $($('#MainHeader>table>tbody>tr>td>table>tbody>tr>td')[2]).find('table>tbody>tr:first>td:last>span');
+    if(trigram_span.length){
+    	trigram = trigram_span.text().trim().toUpperCase();
+    }
+    console.log('SCP Mod >>', "Welcome to SCP Mod", '[', trigram, ']');
 
     // Start Custom SCP Tab Title
     // Inspired from:
@@ -128,6 +129,12 @@ $(document).ready(function() {
 
     // Call function to highlight Notes on load of page
     highlightNotes();
+
+    // _DIALOG_LAYER div can be already loaded, or dynamically added to body
+    // Add listener if already loaded
+    if($('#_DIALOG_LAYER').length){
+        $(document).on('DOMSubtreeModified', $('#_DIALOG_LAYER'), _DIALOG_LAYER_callback);
+    }
 });
 
 
@@ -179,7 +186,7 @@ function highlightNotes(){
             label_name = "Complexity";
             label_color = "#4295f4";
             //label_color = "darkorchid";
-            //complexity_id = outerdiv.id;
+            complexity_id = outerdiv.id;
         }
 
         if (customize){
@@ -201,6 +208,13 @@ function highlightNotes(){
         $('#scroll_summary .scpicon159').css('display', 'block');
     }else{
         $('#scroll_summary .scpicon159').css('display', 'none');
+    }
+
+    // Show edit icon on scroll_complexity button if no summary found
+    if (complexity_id == "") {
+        $('#scroll_complexity .scpicon159').css('display', 'block');
+    }else{
+        $('#scroll_complexity .scpicon159').css('display', 'none');
     }
 }
 // End Highlight feature
@@ -246,11 +260,13 @@ $('#scroll_up').click(function(){
 
 
 /**--------------------------------------------------
- * SUMMARY note - Add, Find
+ * SUMMARY/Complexity note - Add, Find
  */
 // Add template note text when adding new note
-var add_template_summary = false;
 var add_template_complexity = false;
+var template_complexity = "##Complexity:\n";
+
+var add_template_summary = false;
 var template_summary = '=========================================\n' +
 '##SUMMARY\n' +
 '\n' +
@@ -273,35 +289,46 @@ var template_summary = '=========================================\n' +
 '- <i.e. waiting for model & db backup, analyzing log files, waiting for response from SS>\n' +
 '- <typically something we also add in remarks>\n' +
 '=========================================\n';
-var template_complexity = "##Complexity:";
 
-function findOrAddSummary(){
+function findOrAddNote(note_type, note_id){
     if($("#requestDetails").hasClass('show')){
-        var s_note = $("#"+summary_id);
-
-        if(s_note.length){
-            // Find (i.e. scroll to) Summary note
-            scrollTo(s_note);
-            if(!s_note.hasClass('ReqMDetails')){
-                s_note.find('.g-conv.fl')[0].click();
+		var note = $("#"+note_id);
+        
+        if(note.length){
+            // Find (i.e. scroll to) note
+            console.log(note_id, 'note exists')
+            scrollTo(note);
+            if(!note.hasClass('ReqMDetails')){
+                note.find('.g-conv.fl')[0].click();
             }
         }else if(scp_id != ""){
-            // Add Summary note
-            add_template_summary = true;
+            // Add note
+            switch (note_type){
+	    		case 'summary':
+	    			add_template_summary = true;
+	    			break;
+				case 'complexity':
+					add_template_complexity = true;
+					break;
+	    	}
             showURLInDialog('AddNotes.do?workorderID=' + scp_id + '&toAdd=yes','title=Add Note, top=50, left=400');
+        }else{
+        	console.log('scp_id = null ?');
         }
     }
 }
 
 function addCustomNote(target){
     //e.preventDefault();
-    console.log(add_template_summary, target);
+    //console.log(add_template_summary, target);
     if(add_template_summary){
         add_template_summary = false;
         target.text(template_summary);
         target.css('height', '315px');
     }else if(add_template_complexity){
         add_template_complexity = false;
+        target.text(template_complexity+" - "+trigram+";");
+        //target.css('height', '315px');
     }
 }
 
@@ -310,16 +337,17 @@ $(document).on("DOMNodeInserted", this.body, function(e){
     //console.log(element);
     //console.log($(e.target)[0]);
     if(element.id == '_DIALOG_LAYER'){
-        //console.log($(element));
-        //$(element).bind('DOMSubtreeModified', addCustomNote(e));
-        $(document).on('DOMSubtreeModified', element, function(e2){
-            //console.log();
-            if(e2.target.id == '_DIALOG_LAYER' && (add_template_summary | add_template_complexity) ){
-                var target = $(e2.target).find('#viewPageNotesText');
-                if(target.length)
-                    addCustomNote(target);
-            }
-        });
+    	// _DIALOG_LAYER div can be already loaded, or dynamically added to body
+    	// Add listener if dynamically added
+        $(document).on('DOMSubtreeModified', element, _DIALOG_LAYER_callback);
     }
 });
-// End SUMMARY note - Add, Find
+
+var _DIALOG_LAYER_callback = function(e){
+    if(e.target.id == '_DIALOG_LAYER' && (add_template_summary | add_template_complexity) ){
+        var target = $(e.target).find('#viewPageNotesText');
+        if(target.length)
+            addCustomNote(target);
+    }
+}
+// End SUMMARY/Complexity note - Add, Find
