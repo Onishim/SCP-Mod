@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     	SCP Mod
-// @version  	1.4.0
+// @version  	1.4.2
 // @author      Oni
 // @description  Enhancement mods for SCP
 // @updateURL	https://github.com/Onishim/SCP-Mod/blob/master/SCP%20Mod.user.js
